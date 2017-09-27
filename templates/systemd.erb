@@ -1,0 +1,13 @@
+[Unit]
+Description=<%= @options['description'] %>
+Documentation=https://github.com/kubernetes/kubernetes
+
+[Service]
+ExecStart=/usr/bin/<%= @options['name'] %><%- @options['args'].each do |argument| -%> \\
+  <%= argument %>
+<%- end -%>
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
