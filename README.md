@@ -29,7 +29,7 @@ What it does not (and will not) do:
 
 This module uses
 [puppet-archive](https://github.com/voxpupoli/puppet-archive)
-to download and extract kubernetes release archives, with optional file checksum verification.
+to download, verify and extract kubernetes release archives.
 
 The [stdlib](https://github.com/puppetlabs/puppetlabs-stdlib) module is also used for parameter checking, but that is required by puppet-archive anyway.
 
@@ -39,18 +39,15 @@ To actually use this module, you must provide the `binaries`, `os_release`, `rel
 
 Check the [Kubernetes Changelog](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG.md) and search for a release you want to install.
 
-Optional: If you want the module to verify the release archive, you must provide `checksum` and `checksum_type`.
 ```puppet
 class { 'kubernetes':
-  binaries      => ['kubectl', 'kubelet', 'kube-proxy'],
-  checksum      => '302c3c48f9c2def14fd4503f5caf3c66e8abefd478e735ec7a270b3ba313f93c',
-  checksum_type => 'sh256',
-  os_release    => 'linux',
-  release_arch  => 'amd64',
-  release_type  => 'node',
-  version       => '1.7.6',
+  binaries     => ['kubectl', 'kubelet', 'kube-proxy'],
+  os_release   => 'linux',
+  release_arch => 'amd64',
+  release_type => 'node',
+  version      => '1.7.6',
 }
 ```
-NOTE: verify that values in `binaries` match binaries in the `release_type` archive, or the puppet run will crash; eg. kube-apiserver is in the server release.
+NOTE: verify that values in `binaries` match binaries in the `release_type` archive, or the puppet run will crash; eg. kube-apiserver is in server releases, but not in node releases.
 
 Check the examples directory for specific use cases.

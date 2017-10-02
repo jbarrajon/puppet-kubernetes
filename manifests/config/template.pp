@@ -5,7 +5,6 @@ define kubernetes::config::template (
   $path    = ''
 ) {
 
-  validate_hash($options)
   validate_string($path)
 
   file { "${path}/${name}":

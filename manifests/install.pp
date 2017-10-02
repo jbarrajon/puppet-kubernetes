@@ -7,9 +7,9 @@ class kubernetes::install inherits ::kubernetes {
   archive { "${archive_name}.tar.gz":
     path            => "/tmp/${archive_name}.tar.gz",
     source          => $archive_url,
-    checksum        => $::kubernetes::checksum,
-    checksum_type   => $::kubernetes::checksum_type,
-    checksum_verify => $::kubernetes::checksum_verify,
+    checksum_url    => "${archive_url}.sha1",
+    checksum_type   => 'sha1',
+    checksum_verify => true,
     extract         => true,
     extract_command => "tar -xzf /tmp/${archive_name}.tar.gz --one-top-level",
     extract_path    => $::kubernetes::archive_path,

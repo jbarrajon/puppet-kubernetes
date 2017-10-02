@@ -2,10 +2,8 @@
 class kubernetes::params {
 
   $archive_path  = '/opt'
-  $binaries      = ['kubectl', 'kubefed', 'kubelet', 'kube-proxy', 'kube-apiserver', 'kube-controller-manager', 'kube-scheduler']
+  $binaries      = ['kubectl', 'kubefed', 'kubelet', 'kube-proxy'] # ['kube-apiserver', 'kube-controller-manager', 'kube-scheduler']
   $binaries_path = '/usr/bin'
-  $checksum      = undef
-  $checksum_type = 'sh256'
   $cni_configs         = {}
   $cni_config_defaults = {
     'path' => '/etc/cni/net.d',
@@ -20,7 +18,7 @@ class kubernetes::params {
   }
   $os_release   = 'linux'
   $release_arch = 'amd64'
-  $release_type = 'server'
+  $release_type = 'node'
   $service_configs          = {}
   $service_configs_defaults = {
     'path'     => '/etc/systemd/system',
