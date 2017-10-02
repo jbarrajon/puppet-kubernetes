@@ -4,6 +4,13 @@ class kubernetes::install inherits ::kubernetes {
   $archive_name = "kubernetes-${::kubernetes::release_type}-${::kubernetes::version}"
   $archive_url = "https://dl.k8s.io/v${::kubernetes::version}/kubernetes-${::kubernetes::release_type}-${::kubernetes::os_release}-${::kubernetes::release_arch}.tar.gz"
 
+  file { "${::kubernetes::archive_path}/${archive_name}":
+    ensure => 'directory',
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0755',
+  }
+
   archive { "${archive_name}.tar.gz":
     path            => "/tmp/${archive_name}.tar.gz",
     source          => $archive_url,
@@ -11,10 +18,10 @@ class kubernetes::install inherits ::kubernetes {
     checksum_type   => 'sha1',
     checksum_verify => true,
     extract         => true,
-    extract_command => "tar -xzf /tmp/${archive_name}.tar.gz --one-top-level",
-    extract_path    => $::kubernetes::archive_path,
-    creates         => "${::kubernetes::archive_path}/${archive_name}",
+    extract_path    => "${::kubernetes::archive_path}/${archive_name}",
+    creates         => "${::kubernetes::archive_path}/${archive_name}/kubernetes",
     cleanup         => true,
+    require         => File["${::kubernetes::archive_path}/${archive_name}"],
   }
 
   $::kubernetes::binaries.each |String $binary| {
