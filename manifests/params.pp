@@ -23,11 +23,13 @@ class kubernetes::params {
   $service_configs_defaults = {
     'path'     => '/etc/systemd/system',
     'template' => 'kubernetes/systemd.erb',
+    'notify'   => Exec['systemd_reload_kubernetes'],
   }
   $services         = {}
   $service_defaults = {
-    'ensure' => 'running',
-    'enable' => true,
+    'ensure'  => 'running',
+    'enable'  => true,
+    'require' => Exec['systemd_reload_kubernetes'],
   }
   $version = undef
 
