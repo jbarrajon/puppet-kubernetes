@@ -63,7 +63,7 @@ class kubernetes::install inherits ::kubernetes {
       path            => "/tmp/${cni_archive_name}.tgz",
       source          => $cni_archive_url,
       checksum_url    => "${cni_archive_url}.sha256",
-      checksum_type   => 'sh256',
+      checksum_type   => 'sha256',
       checksum_verify => true,
       extract         => true,
       extract_path    => '/opt/cni/bin',
