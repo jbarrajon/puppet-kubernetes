@@ -73,12 +73,14 @@ class kubernetes::install inherits ::kubernetes {
     }
 
     file { '/opt/cni/bin':
-      ensure => 'directory',
-      owner  => 'root',
-      group  => 'root',
-      mode   => '0755',
-      source => "/opt/${cni_archive_name}",
-      purge  => true,
+      ensure       => 'directory',
+      owner        => 'root',
+      group        => 'root',
+      mode         => '0755',
+      source       => "/opt/${cni_archive_name}",
+      purge        => true,
+      recurse      => true,
+      recurselimit => 1,
     }
   }
 
