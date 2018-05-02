@@ -49,7 +49,7 @@ class kubernetes::install inherits ::kubernetes {
 
     file { [
       '/opt/cni',
-      '/opt/cni/bin',
+      "/opt/${cni_archive_name}",
       '/etc/cni',
       '/etc/cni/net.d',
     ]:
@@ -66,10 +66,19 @@ class kubernetes::install inherits ::kubernetes {
       checksum_type   => 'sha256',
       checksum_verify => true,
       extract         => true,
-      extract_path    => '/opt/cni/bin',
-      creates         => '/opt/cni/bin/vlan',
-      require         => File['/opt/cni/bin'],
+      extract_path    => "/opt/${cni_archive_name}",
+      creates         => "/opt/${cni_archive_name}/vlan",
+      require         => File["/opt/${cni_archive_name}"],
       cleanup         => true,
+    }
+
+    file { '/opt/cni/bin':
+      ensure => 'directory',
+      owner  => 'root',
+      group  => 'root',
+      mode   => '0755',
+      source => "/opt/${cni_archive_name}",
+      purge  => true,
     }
   }
 
